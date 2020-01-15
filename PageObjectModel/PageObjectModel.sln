@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automation.Common", "Automation.Common\Automation.Common.csproj", "{1B4AC04F-EAC5-41C0-BEB7-FC968C83A2E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrangeHrmLive.Steps", "OrangeHrmLive.Steps\OrangeHrmLive.Steps.csproj", "{2244A452-C4CE-463E-8B8E-89B69DAE2369}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrangeHrmLive.Test", "OrangeHrmLive.Test\OrangeHrmLive.Test.csproj", "{66314DB1-5F0D-4D9A-A4AC-C34C22FBF847}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDriver.Common", "WebDriverHelper\WebDriver.Common.csproj", "{F3809675-1213-4AD9-92E2-C6924DE06175}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrangeHrmLive.Page", "OrangeHrmLive.Page\OrangeHrmLive.Page.csproj", "{DCEF19EC-9A75-4633-B154-DACA73C0DB06}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B4AC04F-EAC5-41C0-BEB7-FC968C83A2E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4AC04F-EAC5-41C0-BEB7-FC968C83A2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B4AC04F-EAC5-41C0-BEB7-FC968C83A2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B4AC04F-EAC5-41C0-BEB7-FC968C83A2E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2244A452-C4CE-463E-8B8E-89B69DAE2369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2244A452-C4CE-463E-8B8E-89B69DAE2369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2244A452-C4CE-463E-8B8E-89B69DAE2369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2244A452-C4CE-463E-8B8E-89B69DAE2369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66314DB1-5F0D-4D9A-A4AC-C34C22FBF847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66314DB1-5F0D-4D9A-A4AC-C34C22FBF847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66314DB1-5F0D-4D9A-A4AC-C34C22FBF847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66314DB1-5F0D-4D9A-A4AC-C34C22FBF847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3809675-1213-4AD9-92E2-C6924DE06175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3809675-1213-4AD9-92E2-C6924DE06175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3809675-1213-4AD9-92E2-C6924DE06175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3809675-1213-4AD9-92E2-C6924DE06175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEF19EC-9A75-4633-B154-DACA73C0DB06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEF19EC-9A75-4633-B154-DACA73C0DB06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEF19EC-9A75-4633-B154-DACA73C0DB06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEF19EC-9A75-4633-B154-DACA73C0DB06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19432495-2C0C-4F77-B0FE-F3DB4E437017}
+	EndGlobalSection
+EndGlobal
