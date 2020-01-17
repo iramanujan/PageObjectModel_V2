@@ -1,16 +1,20 @@
 ﻿using Automation.Common.Config;
+
 using Automation.Common.Utils;
+using AventStack.ExtentReports;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OrangeHrmLive.Page.Context;
 using System;
+using WebDriverHelper.Report;
 using static Automation.Common.Config.ToolConfigMember;
 
 namespace OrangeHrmLive.Test
 {
     public class BaseTest: WebDriverScreenshotable
     {
-        public static readonly ToolConfigMember toolConfigMember = ToolConfigReader.GetToolConfig();
+        public new static readonly ToolConfigMember toolConfigMember = ToolConfigReader.GetToolConfig();
         protected TestHarnessContext myContext { get; } = TestHarnessContextHelper.CreateDefault();
 
         public override ITakesScreenshot TakesScreenshot => myContext.Browser;
@@ -24,12 +28,28 @@ namespace OrangeHrmLive.Test
         public void BaseTestOneTimeSetUp()
         {
             var browser = myContext.Browser;
-            browser.Open(toolConfigMember.PageUrls);
+            browser.InitBrowser(toolConfigMember.PageUrls);
         }
+
         [TearDown]
         public void BaseTestOneTimeTearDown()
         {
-            //Cleanup upload and download directories and close the browser after test class is completed.
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Passed)
+            {
+                ExtentReportsUtils.test.Pass("Test Case {"+TestContext.CurrentContext.Test.Name+ "} is Passed Successfully.", ExtentReportsUtils.GetMediaEntityModelProvider());
+            }
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            {
+                ExtentReportsUtils.test.Fail("Test Case {" + TestContext.CurrentContext.Test.Name + "} is Failed.", ExtentReportsUtils.GetMediaEntityModelProvider());
+            }
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Warning)
+            {
+                ExtentReportsUtils.test.Warning("Test Case {" + TestContext.CurrentContext.Test.Name + "} is showing Warning.", ExtentReportsUtils.GetMediaEntityModelProvider());
+            }
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Skipped)
+            {
+                ExtentReportsUtils.test.Skip("Test Case {" + TestContext.CurrentContext.Test.Name + "} is Skipped", ExtentReportsUtils.GetMediaEntityModelProvider());
+            }
             ExecuteSafely(myContext.Browser.CleanupCreatedDirectoriesSafely);
             ExecuteSafely(myContext.Browser.Quit);
             switch (ToolConfigReader.GetToolConfig().Browser)
@@ -53,5 +73,13 @@ namespace OrangeHrmLive.Test
                     break;
             }
         }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            ExecuteSafely(myContext.Browser.CleanupCreatedDirectoriesSafely);
+            ExtentReportsUtils.ExtentReportsTearDown();
+        }
+
     }
 }

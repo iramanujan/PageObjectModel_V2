@@ -1,32 +1,29 @@
 ﻿using Automation.Common.Config;
-using Automation.Common.Location.Upload;
 using Automation.Common.Log;
-using Automation.Common.Report;
 using Automation.Common.Utils;
-using Automation.Common.Wait;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using WebDriverHelper.Interfaces.DriverFactory;
 using WebDriverHelper.JScript;
+using WebDriverHelper.Report;
 using static Automation.Common.Config.ToolConfigMember;
 
 namespace WebDriverHelper.BrowserFactory
 {
-    public class Browser: IWebDriver, ITakesScreenshot, IJavaScriptExecutor
+    public class Browser : JavaScript, ITakesScreenshot, IWebDriver
     {
-        protected static readonly ToolConfigMember toolConfigMember = ToolConfigReader.GetToolConfig();
+        protected new static readonly ToolConfigMember toolConfigMember = ToolConfigReader.GetToolConfig();
         private readonly IWebDriverFactory webDriverFactory;
         public IWebDriver objWebDriver;
-
         public IWebDriver webDriver => objWebDriver ?? (objWebDriver = webDriverFactory.InitializeWebDriver());
 
+        #region Constructor
         public Browser(IWebDriverFactory webDriverFactory)
         {
+            CreateUploadDwonloadDirectory();
             this.webDriverFactory = webDriverFactory;
             new ExtentReportsUtils().ExtentReportsSetup();
         }
@@ -38,314 +35,153 @@ namespace WebDriverHelper.BrowserFactory
 
         public Browser()
         {
-           
+
+        }
+        
+        
+        
+        #endregion
+
+        #region Functions
+
+        public IWebDriver GetWebDriverObject()
+        {
+            return this.webDriver;
         }
 
-        public void GetDownloadLocation()
+        public Screenshot GetScreenshot()
         {
-            toolConfigMember.RootDownloadLocation.ToString();
+            return ((ITakesScreenshot)webDriver).GetScreenshot();
         }
 
-        public void GetUploadLocation()
+        public Browser InitBrowser(string url)
         {
-            toolConfigMember.RootUploadLocation.ToString();
-        }
-
-        public Browser Back()
-        {
-            webDriver.Navigate().Back();
+            webDriver.Navigate().GoToUrl(url);
+            WaitTillPageLoad(webDriver);
+            webDriver.SwitchTo().DefaultContent();
             return this;
         }
 
-        public Browser Forward()
+        public Browser OpenUrl(string url)
         {
-            webDriver.Navigate().Forward();
+            this.webDriver.Navigate().GoToUrl(url);
             return this;
         }
-
-        public Browser Refresh()
-        {
-            webDriver.Navigate().Refresh();
-            JavaScript.ExecuteScript(JScriptType.PageLoad, this.webDriver);
-            return this;
-        }
-        public void ExecuteInFrame(By bySelector, Action action)
-        {
-            new WebDriverWait(webDriver, TimeSpan.FromMilliseconds(ToolConfigReader.GetToolConfig().ObjectWait))
-                .Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt(bySelector));
-
-            ExecuteInFrame(action);
-        }
-
-        private void ExecuteInFrame(Action action)
-        {
-            try
-            {
-                action();
-            }
-            finally
-            {
-                SwitchTo().DefaultContent();
-            }
-        }
-
-        public IWebElement GetElementIfExists(By by)
-        {
-            return webDriver.FindElements(by).FirstOrDefault();
-        }
-
-
-        public void ExecuteInFrame(int frameIndex, Action action)
-        {
-            SwitchTo().Frame(frameIndex);
-
-            ExecuteInFrame(action);
-        }
-
-        public void DoWithResizedToZeroWindowForIE(Action action)
-        {
-            if (ToolConfigReader.GetToolConfig().Browser == ToolConfigMember.BrowserType.IE)
-            {
-                this.Manage().Window.Size = new System.Drawing.Size(0, 0);
-                try
-                {
-                    action();
-                }
-                finally
-                {
-                    this.Maximize();
-                }
-            }
-            else
-            {
-                action();
-            }
-        }
-
 
         public Browser Maximize()
         {
             this.webDriver.Manage().Window.Maximize();
             return this;
         }
-        public void CleanupCreatedDirectoriesSafely()
+        
+        public Browser Forward()
         {
-            if (toolConfigMember.Browser != ToolConfigMember.BrowserType.IE)
-            {
-                StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(), true));
-            }
-            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetUploadPath(), true));
+            this.webDriver.Navigate().Forward();
+            return this;
+        }
+
+        public Browser ClearCookies()
+        {
+            this.webDriver.Manage().Cookies.DeleteAllCookies();
+            return this;
+        }
+
+        public Browser Back()
+        {
+            this.webDriver.Navigate().Back();
+            return this;
+        }
+
+        public Browser Refresh()
+        {
+            webDriver.Navigate().Refresh();
+            WaitTillPageLoad(webDriver);
+            return this;
+        }
+
+        public void CloseCurrentTab()
+        {
+            this.webDriver.Close();
+        }
+
+        public string GetUrl()
+        {
+            return this.webDriver.Url;
+        }
+        public string GetDownloadPath()
+        {
+            return toolConfigMember.RootDownloadLocation;
         }
 
         public string GetUploadPath()
         {
-
             return toolConfigMember.RootUploadLocation;
         }
-        public string GetDownloadPath()
+
+        public ReadOnlyCollection<string> GetWindowHandles()
         {
-            
-            return toolConfigMember.RootDownloadLocation;
+            return this.webDriver.WindowHandles;
         }
-
-        public object ExecuteAsyncScript(string script, params object[] args)
-        {
-            try
-            {
-                return ((IJavaScriptExecutor)objWebDriver).ExecuteAsyncScript(script, args);
-            }
-            catch (WebDriverTimeoutException)
-            {
-                // If timeout or any errors
-                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}", Environment.NewLine, script));
-                throw;
-            }
-        }
-
-
-        // </summary>
-        public bool WaitTillPageLoad()
-        {
-            return WaitTillPageLoad(toolConfigMember.ObjectWait / 1000);
-        }
-
-        /// <summary>
-        /// Scroll whole page to Top
-        /// </summary>
-        public void ScrollTop()
-        {
-            Logger.LogExecute("Scroll page top");
-            ExecuteScript("$(window).scrollTop(0)");
-            WaitTillAjaxLoad();
-        }
-
-        /// <summary>
-        /// Scroll whole page to Bottom
-        /// </summary>
-        public void ScrollBottom()
-        {
-            Logger.LogExecute("Scroll page top");
-            ExecuteScript("$(window).scrollTop($(document).height())");
-            WaitTillAjaxLoad();
-        }
-
-        /// <summary>
-        /// Waits till the page is load.
-        /// </summary>
-        /// <param name="numberOfSeconds"> Number of seconds for timeout</param>
-        public bool WaitTillPageLoad(int numberOfSeconds)
-        {
-            try
-            {
-                Wait(numberOfSeconds).Until((driver) =>
-                {
-                    try
-                    {
-                        return ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").ToString().Contains("complete");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        return false;
-                    }
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                // If timeout, then page is not loaded. For all other exceptions, do not catch.
-            }
-            return false;
-        }
-
-        public WebDriverWait Wait(int numberOfSeconds)
-        {
-            return new WebDriverWait(objWebDriver, TimeSpan.FromSeconds(numberOfSeconds));
-        }
-
-        public WebDriverWait Wait()
-        {
-            return new WebDriverWait(objWebDriver, TimeSpan.FromMilliseconds(toolConfigMember.ObjectWait));
-        }
-
-        /// <summary>
-        /// Waits till the AJAX is loaded.
-        /// </summary>
-        public bool WaitTillAjaxLoad()
-        {
-            return WaitTillAjaxLoad(toolConfigMember.ObjectWait / 1000);
-        }
-
-        /// <summary>
-        /// Wait for AJAX calls to complete (using jQuery)
-        /// </summary>
-        /// <param name="numberOfSeconds"> Number of seconds for timeout</param>
-        public bool WaitTillAjaxLoad(int numberOfSeconds)
-        {
-            try
-            {
-                Wait(numberOfSeconds).Until((driver) =>
-                {
-                    try
-                    {
-                        return (bool)((IJavaScriptExecutor)driver).ExecuteScript("return (typeof jQuery != 'undefined') && (jQuery.active === 0)");
-                    }
-                    catch (Exception e)
-                    {
-                        if (e is InvalidOperationException)
-                        {
-                            Console.WriteLine("WaitTillAjaxLoad threw InvalidOperationException with message '{0}'", e.Message);
-                        }
-                        else
-                        {
-                            Console.WriteLine(e);
-                        }
-                        return false;
-                    }
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                // If timeout, then AJAX calls are not completed. For all other exceptions, do not catch.
-            }
-            return false;
-        }
-
-        public bool WaitTillAjaxLoadIfExists(int numberOfSeconds = -1)
-        {
-            try
-            {
-                Wait(numberOfSeconds == -1 ? toolConfigMember.ObjectWait / 1000 : numberOfSeconds).Until((driver) =>
-                {
-                    try
-                    {
-                        return (bool)((IJavaScriptExecutor)driver).ExecuteScript("return (typeof jQuery == 'undefined') || (jQuery.active === 0)");
-                    }
-                    catch (Exception e)
-                    {
-                        if (e is InvalidOperationException)
-                        {
-                            Console.WriteLine("WaitTillAjaxLoad threw InvalidOperationException with message '{0}'", e.Message);
-                        }
-                        else
-                        {
-                            Console.WriteLine(e);
-                        }
-                        return false;
-                    }
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                // If timeout, then AJAX calls are not completed. For all other exceptions, do not catch.
-            }
-            return false;
-        }
-
-        public void ClearLocalStorage(string key)
-        {
-            ExecuteScript($"delete localStorage['{key}']");
-        }
-
-        #region IWebDriver overrides
-        /// <summary>
-        /// Closes this browser instance.
-        /// </summary>
-        public void Close()
-        {
-            objWebDriver.Close();
-        }
-
-        /// <summary>
-        /// Quits this driver, closing every associated window.
-        /// Make objWebDriver null to have ability to start clear session
-        /// </summary>
-        /// 
 
         public void SwitchToWindowHandle(string windowHandle)
         {
-            this.webDriver.SwitchTo().Window(windowHandle);
+            webDriver.SwitchTo().Window(windowHandle);
         }
+
+        public void SwitchHandleToNewWindowByPartialUrl(string urlPart)
+        {
+
+            if (GetDecodedUrl().Contains(urlPart)) { return; }
+            ReadOnlyCollection<string> handles = webDriver.WindowHandles;
+            foreach (string handle in handles.Reverse())
+            {
+                webDriver.SwitchTo().Window(handle);
+                if (GetDecodedUrl().Contains(urlPart))
+                {
+                    WaitTillPageLoad(webDriver);
+                    WaitTillAjaxLoad(webDriver);
+                    return;
+                }
+            }
+        }
+
+        public string GetDecodedUrl()
+        {
+            var url = webDriver.Url;
+            return HttpUtility.UrlDecode(url);
+        }
+
+        public void Close()
+        {
+            this.webDriver.Close();
+        }
+
+        public void Dispose()
+        {
+            Quit();
+        }
+
         public void Quit()
         {
-            if (objWebDriver != null)
+            if (this.webDriver != null)
             {
                 try
                 {
-                    foreach (var window in objWebDriver.WindowHandles)
+                    foreach (var window in this.webDriver.WindowHandles)
                     {
                         SwitchToWindowHandle(window);
                         Close();
                     }
-                    objWebDriver.Quit();
+                    this.webDriver.Quit();
                 }
 
                 catch (Exception ex)
                 {
                     Logger.Error($"Unable to Quit the browser. Reason: {ex.Message}");
-                    switch (ToolConfigReader.GetToolConfig().Browser)
+                    switch (toolConfigMember.Browser)
                     {
                         case BrowserType.IE:
-                            //Killing IE driver process if exists
+
                             ProcessUtils.KillProcesses("iexplore");
                             ProcessUtils.KillProcesses("IEDriverServer");
                             break;
@@ -366,142 +202,84 @@ namespace WebDriverHelper.BrowserFactory
 
                 finally
                 {
-                    objWebDriver = null;
+                    this.objWebDriver = null;
                 }
             }
         }
 
         public IOptions Manage()
         {
-            return objWebDriver.Manage();
+            return this.webDriver.Manage();
         }
 
         public INavigation Navigate()
         {
-            return objWebDriver.Navigate();
+            return this.webDriver.Navigate();
         }
 
-    
         public ITargetLocator SwitchTo()
         {
-            return objWebDriver.SwitchTo();
+            return this.webDriver.SwitchTo();
         }
 
-        public string Url
+        public IWebElement FindElement(By by)
         {
-            get { return objWebDriver.Url; }
-            set { objWebDriver.Url = value; }
+            return this.webDriver.FindElement(by);
         }
 
-        public string Title
+        public ReadOnlyCollection<IWebElement> FindElements(By by)
         {
-            get { return objWebDriver.Title; }
+            return this.webDriver.FindElements(by);
         }
 
-        public string PageSource
+        public IWebElement GetElementIfExists(By by)
         {
-            get { return objWebDriver.PageSource; }
+            return this.webDriver.FindElements(by).FirstOrDefault();
         }
 
-        public string CurrentWindowHandle
+        public void CleanupCreatedDirectoriesSafely()
         {
-            get { return objWebDriver.CurrentWindowHandle; }
+            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetDownloadPath(), true));
+            StepsExecutor.ExecuteSafely(() => Directory.Delete(GetUploadPath(), true));
         }
 
-        public ReadOnlyCollection<string> WindowHandles
+        public void CreateUploadDwonloadDirectory()
         {
-            get { return objWebDriver.WindowHandles; }
-        }
-
-        public IWebElement FindElement(By @by)
-        {
-            return objWebDriver.FindElement(@by);
-        }
-
-        public ReadOnlyCollection<IWebElement> FindElements(By @by)
-        {
-            return objWebDriver.FindElements(@by);
-        }
-
-        public void Dispose()
-        {
-            Quit();
-        }
-
-        public Browser Open(string url)
-        {
-            this.webDriver.Navigate().GoToUrl(url);
-            WaitTillPageLoad();
-            this.webDriver.SwitchTo().DefaultContent();
-            return this;
-        }
-
-        public Screenshot GetScreenshot()
-        {
-            return ((ITakesScreenshot)objWebDriver).GetScreenshot();
+            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetDownloadPath()));
+            StepsExecutor.ExecuteSafely(() => Directory.CreateDirectory(GetUploadPath()));
         }
 
         #endregion
 
-
-        ReadOnlyCollection<string> IWebDriver.WindowHandles => throw new NotImplementedException();
-
-        /// <summary>
-        /// Scrolls to the spcified element with use of JS
-        /// </summary>
-        /// <param name="webElement"></param>
-        /// <returns></returns>
-        public IWebElement JsScrollToElement(IWebElement webElement, bool alignToTop = false)
+        #region Properties
+        public string Url
         {
-            ExecuteScript($"arguments[0].scrollIntoView('{alignToTop}');", webElement);
-            return webElement;
+            get { return this.webDriver.Url; }
+            set { this.webDriver.Url = value; }
         }
 
-        /// <summary>
-        /// Returns value of cookie
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public string JsGetCookieNamed(string name)
+        public string Title
         {
-            var script = $@"var n='{name}'+'=';var cookies=decodeURIComponent(document.cookie).split(';');" +
-                    @"for(var i=0;i<cookies.length;i++){var c=cookies[i];while (c.charAt(0)==' '){" +
-                    @"c=c.substring(1);}if (c.indexOf(n)==0&&c.length!=n.length)" +
-                    @"{return c.substring(n.length, c.length);}}return ''";
-            return this.ExecuteScript(script) as string;
+            get { return this.webDriver.Title; }
         }
 
-        /// <summary>
-        /// Runs JS
-        /// </summary>
-        /// <param name="script">script to run</param>
-        /// <param name="args">optional args</param>
-        public object ExecuteScript(string script, params object[] args)
+        public string PageSource
         {
-            try
-            {
-                return ((IJavaScriptExecutor)objWebDriver).ExecuteScript(script, args);
-            }
-            catch (WebDriverTimeoutException)
-            {
-                // If timeout or any errors
-                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}", Environment.NewLine, script));
-            }
-            //TODO: check if we could just throw exception
-            return null;
+            get { return this.webDriver.PageSource; }
         }
 
-        public void getJavaScriptConsoleLogs()
+        public string CurrentWindowHandle
         {
-            Logger.Log("====================================================");
-            Logger.Log("Browser Console logs Starts:-");
-            IReadOnlyCollection<LogEntry> logEntries = this.Manage().Logs.GetLog(LogType.Browser);
-            foreach (var logEntry in logEntries)
-            {
-                Logger.Log(logEntry.Timestamp + " - " + logEntry.Message);
-            }
-            Logger.Log("Browser Console logs Ends:-");
-            Logger.Log("====================================================");
+            get { return this.webDriver.CurrentWindowHandle; }
         }
+
+        public ReadOnlyCollection<string> WindowHandles
+        {
+            get { return this.webDriver.WindowHandles; }
+        }
+        #endregion
+
     }
 }
+
+

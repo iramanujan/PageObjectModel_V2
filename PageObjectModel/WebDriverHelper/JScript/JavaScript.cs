@@ -109,7 +109,7 @@ namespace WebDriverHelper.JScript
             }
             catch (WebDriverTimeoutException ObjWebDriverTimeoutException)
             {
-                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType), ObjWebDriverTimeoutException.Message);
+                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType, ObjWebDriverTimeoutException.Message));
                 return false;
             }
             catch (Exception ObjException)
@@ -132,7 +132,7 @@ namespace WebDriverHelper.JScript
             }
             catch (WebDriverTimeoutException ObjWebDriverTimeoutException)
             {
-                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType), ObjWebDriverTimeoutException.Message);
+                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType, ObjWebDriverTimeoutException.Message));
                 return false;
             }
             catch (Exception ObjException)
@@ -156,7 +156,7 @@ namespace WebDriverHelper.JScript
             }
             catch (WebDriverTimeoutException ObjWebDriverTimeoutException)
             {
-                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType.GetDescription()), ObjWebDriverTimeoutException.Message);
+                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType.GetDescription(), ObjWebDriverTimeoutException.Message));
                 return false;
             }
             catch (Exception ObjException)
@@ -179,7 +179,7 @@ namespace WebDriverHelper.JScript
             }
             catch (WebDriverTimeoutException ObjWebDriverTimeoutException)
             {
-                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType.GetDescription()), ObjWebDriverTimeoutException.Message);
+                Logger.Debug(String.Format("Error: Exception thrown while running JS Script:{0}{1}{2}", Environment.NewLine, jScriptType.GetDescription(), ObjWebDriverTimeoutException.Message));
                 return false;
             }
             catch (Exception ObjException)
@@ -211,7 +211,7 @@ namespace WebDriverHelper.JScript
         {
             try
             {
-                Waiter.Wait(webDriver, waitTimeInSec == -1 ? toolConfigMember.ObjectWait / 1000 : waitTimeInSec).Until((webDriver) =>
+                Waiter.Wait(webDriver, waitTimeInSec == -1 ? toolConfigMember.ObjectWait / 1000 : waitTimeInSec).Until((IWebDriver) =>
                  {
                      try
                      {

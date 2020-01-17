@@ -142,9 +142,13 @@ namespace Automation.Common.Config
 
         [DataMember(EmitDefaultValue = false, Order = 25)]
         public string ErrorImageLocation { get; private set; }
+
         [DataMember(EmitDefaultValue = false, Order = 26)]
         public string AutomationReportPath { get; private set; }
 
-        
+        [DataMember(EmitDefaultValue = false, Order = 27)]
+        public string Environment { get; private set; }
+
+
     }
 }

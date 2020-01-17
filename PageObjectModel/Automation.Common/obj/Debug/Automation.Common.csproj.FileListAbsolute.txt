@@ -65,4 +65,3 @@ D:\Personal\PageObjectModel\Automation.Common\bin\Debug\XnaFan.ImageComparison.p
 D:\Personal\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.csproj.CopyComplete
 D:\Personal\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.dll
 D:\Personal\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.pdb
-D:\Personal\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.csprojAssemblyReference.cache

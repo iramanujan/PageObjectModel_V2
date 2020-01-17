@@ -1,5 +1,5 @@
 ﻿using Automation.Common.Log;
-using Automation.Common.Report;
+
 using Automation.Common.Utils;
 using Automation.Common.Wait;
 using CommonHelper.Helper.Attributes;
@@ -10,6 +10,7 @@ using OrangeHrmLive.Page.Login;
 using System;
 using System.Linq;
 using WebDriverHelper.BrowserFactory;
+using WebDriverHelper.Report;
 using static OrangeHrmLive.Page.Pages.Pages;
 using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 
@@ -47,12 +48,22 @@ namespace OrangeHrmLive.Steps.Login
             ObjLoginPage.Login.Submit();
         }
 
-        public void verifyLogin(string userName, string password)
+        public void verifyLogin(string userName, string password,bool IsValidUser = true)
         {
             LoginOrangeHRM(userName, password);
             ExtentReportsUtils.test.Info("Validate After Login Dashboard Page Appear Or Not.");
-            Assert.IsTrue(browser.webDriver.Url.ToLower().Contains(PageName.Dashboard.GetDescription().ToString().ToLower()));
-            ExtentReportsUtils.test.Pass("Validate After Login Dashboard Page Appear");
+            if (IsValidUser)
+            {
+                Assert.IsTrue(browser.webDriver.Url.ToLower().Contains(PageName.Dashboard.GetDescription().ToString().ToLower()));
+                ExtentReportsUtils.test.Pass("Validate After Login Dashboard Page.\nExpected Page: Dashboard.\n" + "Actual Page: Dashboard.", ExtentReportsUtils.GetMediaEntityModelProvider());
+            }
+            else
+            {
+                Assert.IsTrue(browser.webDriver.Url.ToLower().Contains("validateCredentials".ToLower()));
+                ExtentReportsUtils.test.Pass("Validate Login For InValid User.\nExpected Page: Login Page.\n" + "Actual Page: Login Page.", ExtentReportsUtils.GetMediaEntityModelProvider());
+            }
+
+            
         }
 
         private void WaitForErrorMessage()

@@ -1,13 +1,7 @@
-﻿using Automation.Common.Log;
-using Automation.Common.Report;
-using Automation.Common.Utils;
-using AventStack.ExtentReports;
-using AventStack.ExtentReports.Reporter;
-using CommonHelper.Helper.Attributes;
+﻿
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using OrangeHrmLive.Steps.Login;
-using System;
+using WebDriverHelper.Report;
 
 namespace OrangeHrmLive.Test.Login
 {
@@ -23,12 +17,19 @@ namespace OrangeHrmLive.Test.Login
         }
 
         [Test]
-        [TestCase("Admin", "admin123", TestName = "Validate Login With Valid User.")]
-        [TestCase("Admin", "admin1234", TestName = "Validate Login With InValid User.")]
+        [TestCase("Admin", "admin123", TestName = "Validate Login With Valid User.", Author = "Anuj Jain")]
         public void ValidateLogin(string username, string password)
         {
             ExtentReportsUtils.CreateTest(TestContext.CurrentContext.Test.Name);
             this.ObjLoginStep.verifyLogin(username, password);
+        }
+
+        [Test]
+        [TestCase("Admin", "admin1234", TestName = "Validate Login With InValid User.")]
+        public void ValidateInValidLogin(string username, string password)
+        {
+            ExtentReportsUtils.CreateTest(TestContext.CurrentContext.Test.Name);
+            this.ObjLoginStep.verifyLogin(username, password, false);
         }
 
         [Test]
@@ -44,22 +45,6 @@ namespace OrangeHrmLive.Test.Login
         [TearDown]
         public void TearDown()
         {
-            var status = TestContext.CurrentContext.Result.Outcome.Status;
-
-            var stackTrace = "<pre>" + TestContext.CurrentContext.Result.StackTrace + "</pre>";
-
-            var errorMessage = TestContext.CurrentContext.Result.Message;
-            if (status == TestStatus.Failed)
-            {
-                MakeAndSaveScreenshot(TestContext.CurrentContext.Test.MethodName + "_" + TestContext.CurrentContext.Test.Name);
-                ExtentReportsUtils.test.Log(Status.Fail, stackTrace + errorMessage, MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotImagPath).Build());
-
-            }
-            if (status == TestStatus.Warning)
-            {
-                MakeAndSaveScreenshot(TestContext.CurrentContext.Test.MethodName + "_" + TestContext.CurrentContext.Test.Name);
-                ExtentReportsUtils.test.Log(Status.Warning, "", MediaEntityBuilder.CreateScreenCaptureFromPath(ScreenshotImagPath).Build());
-            }
         }
 
     }

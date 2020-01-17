@@ -147,17 +147,16 @@ namespace Automation.Common.Wait
             Logger.LogExecute("Wait for '{0}'", timeSpan);
             Thread.Sleep(timeSpan);
         }
-
         public static WebDriverWait Wait(IWebDriver webDriver,int numberOfSeconds)
         {
             return new WebDriverWait(webDriver, TimeSpan.FromSeconds(numberOfSeconds));
         }
+        public static WebDriverWait Wait(IWebDriver webDriver, TimeSpan time)
+        {
+            return new WebDriverWait(webDriver, time);
+        }
 
-        /// <summary>
-        /// Base Wait which is used by other methods
-        /// </summary>
-        /// <param name="condition"></param>
-        /// <returns></returns>
+
         public Waiter WaitFor(Func<bool> condition)
         {
             using (new NInternal.TestExecutionContext.IsolatedContext())
@@ -183,29 +182,7 @@ namespace Automation.Common.Wait
             }
         }
 
-        public static bool WaitTillPageLoad(IWebDriver webDriver, int numberOfSeconds)
-        {
-            try
-            {
-                Wait(webDriver, numberOfSeconds).Until((driver) =>
-                {
-                    try
-                    {
-                        return ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").ToString().Contains("complete");
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        return false;
-                    }
-                });
-            }
-            catch (WebDriverTimeoutException)
-            {
-                // If timeout, then page is not loaded. For all other exceptions, do not catch.
-            }
-            return false;
-        }
+        
 
         #endregion
 

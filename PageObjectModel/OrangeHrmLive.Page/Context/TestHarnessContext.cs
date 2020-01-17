@@ -19,6 +19,7 @@ namespace OrangeHrmLive.Page.Context
             if(BrowserContext.browser== null)
             {
                 BrowserContext.browser = this.Browser;
+                BrowserObjectContext.browser = this.Browser;
             }
         }
 

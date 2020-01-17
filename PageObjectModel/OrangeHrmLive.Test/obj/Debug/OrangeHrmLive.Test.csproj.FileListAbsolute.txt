@@ -1,3 +1,4 @@
+D:\Personal\PageObjectModel\OrangeHrmLive.Test\obj\Debug\OrangeHrmLive.Test.csprojAssemblyReference.cache
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\NUnit3.TestAdapter.dll
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\NUnit3.TestAdapter.pdb
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\nunit.engine.dll
@@ -24,7 +25,6 @@ D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\WebDriverHelper.dll
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\TestStack.White.dll
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\Bogus.dll
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\XnaFan.ImageComparison.dll
-D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\WebDriver.Support.dll
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\Castle.Core.dll
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\Automation.Common.pdb
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\OrangeHrmLive.Page.pdb
@@ -48,9 +48,7 @@ D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\TestStack.White.xml
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\Bogus.pdb
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\Bogus.xml
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\XnaFan.ImageComparison.pdb
-D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\WebDriver.Support.xml
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\bin\Debug\Castle.Core.xml
-D:\Personal\PageObjectModel\OrangeHrmLive.Test\obj\Debug\OrangeHrmLive.Test.csprojAssemblyReference.cache
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\obj\Debug\OrangeHrmLive.Test.csproj.CopyComplete
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\obj\Debug\OrangeHrmLive.Test.dll
 D:\Personal\PageObjectModel\OrangeHrmLive.Test\obj\Debug\OrangeHrmLive.Test.pdb

@@ -259,6 +259,11 @@ namespace Automation.Common.Utils
 
             return lorem.Sentence(wordCount);
         }
+
+        public static String GetTimestamp()
+        {
+            return DateTime.Now.ToString("_yyyyMMddHHmmssffff");
+        }
     }
 
 }
