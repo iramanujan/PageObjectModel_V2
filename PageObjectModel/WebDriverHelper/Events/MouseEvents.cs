@@ -1,10 +1,10 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using WebDriverHelper.Interfaces.Events;
+using WebDriverHelper.BrowserFactory;
 
 namespace WebDriverHelper.Events
 {
-    class MouseEvents : IMouseEvents
+    public class MouseEvents
     {
         private readonly IWebDriver ObjWebDriver;
         private readonly Actions ObjActions;
@@ -13,10 +13,9 @@ namespace WebDriverHelper.Events
             this.ObjWebDriver = webDriver;
             this.ObjActions = new Actions(this.ObjWebDriver);
         }
-
-        public void Click()
+        public MouseEvents() : this(BrowserObjectContext.browser.webDriver)
         {
-            this.ObjActions.Click().Build().Perform();
+
         }
 
         public void Click(IWebElement onElement)
@@ -29,24 +28,9 @@ namespace WebDriverHelper.Events
             this.ObjActions.ClickAndHold(onElement).Build().Perform();
         }
 
-        public void ClickAndHold()
-        {
-            this.ObjActions.ClickAndHold().Build().Perform();
-        }
-
-        public void ContextClick()
-        {
-            this.ObjActions.ContextClick().Build().Perform();
-        }
-
         public void ContextClick(IWebElement onElement)
         {
             this.ObjActions.ContextClick(onElement).Build().Perform();
-        }
-
-        public void DoubleClick()
-        {
-            this.ObjActions.DoubleClick().Build().Perform();
         }
 
         public void DoubleClick(IWebElement onElement)
@@ -66,27 +50,27 @@ namespace WebDriverHelper.Events
 
         public void MoveByOffset(int offsetX, int offsetY)
         {
-            this.ObjActions.MoveByOffset(offsetX, offsetY);
+            this.ObjActions.MoveByOffset(offsetX, offsetY).Build().Perform();
         }
 
         public void MoveToElement(IWebElement toElement, int offsetX, int offsetY)
         {
-            this.ObjActions.MoveToElement(toElement, offsetX, offsetY);
+            this.ObjActions.MoveToElement(toElement, offsetX, offsetY).Build().Perform();
         }
 
         public void MoveToElement(IWebElement toElement)
         {
-            this.ObjActions.MoveToElement(toElement);
+            this.ObjActions.MoveToElement(toElement).Build().Perform();
         }
 
-        public void Release()
+        public void MoveToElementAndClick(IWebElement toElement)
         {
-            this.ObjActions.Release();
+            this.ObjActions.MoveToElement(toElement).Click().Build().Perform();
         }
 
         public void Release(IWebElement toElement)
         {
-            this.ObjActions.Release(toElement);
+            this.ObjActions.Release(toElement).Build().Perform();
         }
 
     }

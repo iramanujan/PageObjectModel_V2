@@ -113,6 +113,7 @@
     <Compile Include="Grid\SlotCountModel.cs" />
     <Compile Include="Headspring\Enumeration.cs" />
     <Compile Include="HtmlAttributes\TagAttributes.cs" />
+    <Compile Include="HtmlElement\WebElementHelper.cs" />
     <Compile Include="Interfaces\DriverFactory\IBaseBrowser.cs" />
     <Compile Include="Interfaces\DriverFactory\IWebDriverFactory.cs" />
     <Compile Include="Interfaces\Events\IKeyboardEvents.cs" />

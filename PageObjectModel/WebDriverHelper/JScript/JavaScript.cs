@@ -4,6 +4,8 @@ using Automation.Common.Wait;
 using CommonHelper.Helper.Attributes;
 using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace WebDriverHelper.JScript
@@ -54,6 +56,10 @@ namespace WebDriverHelper.JScript
                     @"c=c.substring(1);}if (c.indexOf(n)==0&&c.length!=n.length)" +
                     @"{return c.substring(n.length, c.length);}}return ''")]
         CookieNamed = 10,
+
+
+        [Description(@"var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;")]
+        GetAllAttribute = 11,
 
     }
 
@@ -326,5 +332,17 @@ namespace WebDriverHelper.JScript
             var script = JScriptType.CookieNamed.GetDescription().Replace("REPNAME", name);
             return ExecuteScript(script, webDriver) as string;
         }
+
+        public Dictionary<string, object> GetAttributes(JScriptType jScriptType, IWebDriver webDriver, IWebElement webElement)
+        {
+            
+            IJavaScriptExecutor js = (IJavaScriptExecutor)webDriver;
+            Dictionary<string, Object> Attribute =new Dictionary<string, object>();
+            Attribute = (Dictionary<string, Object>)js.ExecuteScript(jScriptType.GetDescription(), webElement);
+            return Attribute;
+
+
+        }
     }
+
 }

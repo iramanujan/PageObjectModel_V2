@@ -36,6 +36,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Admin\SystemUsers\SystemUsersPage.cs" />
     <Compile Include="BasePage.cs" />
     <Compile Include="Context\BrowserContext.cs" />
     <Compile Include="Context\TestHarnessContext.cs" />

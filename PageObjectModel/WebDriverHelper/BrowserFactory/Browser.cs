@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using WebDriverHelper.Events;
 using WebDriverHelper.Interfaces.DriverFactory;
 using WebDriverHelper.JScript;
 using WebDriverHelper.Report;
@@ -19,6 +20,9 @@ namespace WebDriverHelper.BrowserFactory
         private readonly IWebDriverFactory webDriverFactory;
         public IWebDriver objWebDriver;
         public IWebDriver webDriver => objWebDriver ?? (objWebDriver = webDriverFactory.InitializeWebDriver());
+
+
+
 
         #region Constructor
         public Browser(IWebDriverFactory webDriverFactory)

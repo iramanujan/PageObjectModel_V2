@@ -1,15 +1,10 @@
 ﻿using Automation.Common.Log;
-
-using Automation.Common.Utils;
 using Automation.Common.Wait;
 using CommonHelper.Helper.Attributes;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using OrangeHrmLive.Page.Dashboard;
 using OrangeHrmLive.Page.Login;
 using System;
-using System.Linq;
-using WebDriverHelper.BrowserFactory;
 using WebDriverHelper.Report;
 using static OrangeHrmLive.Page.Pages.Pages;
 using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;

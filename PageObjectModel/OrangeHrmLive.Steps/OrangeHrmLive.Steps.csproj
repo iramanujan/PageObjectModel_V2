@@ -43,6 +43,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\SystemUsers\SystemUsersStep.cs" />
     <Compile Include="BaseSteps.cs" />
     <Compile Include="Login\LoginStep.cs" />
     <Compile Include="Utils\CreateInstanceUtils.cs" />

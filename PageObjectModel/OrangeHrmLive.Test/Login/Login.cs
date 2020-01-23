@@ -1,6 +1,9 @@
 ﻿
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
+using OrangeHrmLive.Steps.Admin.SystemUsers;
 using OrangeHrmLive.Steps.Login;
+using System;
 using WebDriverHelper.Report;
 
 namespace OrangeHrmLive.Test.Login
@@ -9,11 +12,13 @@ namespace OrangeHrmLive.Test.Login
     class Login : BaseTest
     {
         private LoginStep ObjLoginStep;
+        private SystemUsersStep ObjSystemUsersStep = null;
 
         [SetUp]
         public void SetUp()
         {
             this.ObjLoginStep = new LoginStep();
+            this.ObjSystemUsersStep = new SystemUsersStep();
         }
 
         [Test]
@@ -22,6 +27,7 @@ namespace OrangeHrmLive.Test.Login
         {
             ExtentReportsUtils.CreateTest(TestContext.CurrentContext.Test.Name);
             this.ObjLoginStep.verifyLogin(username, password);
+            this.ObjSystemUsersStep.NavigateToSystemUsers();
         }
 
         [Test]
@@ -42,9 +48,13 @@ namespace OrangeHrmLive.Test.Login
             this.ObjLoginStep.VerifyErrorMessage(errorMessageType, userName, password);
         }
 
-        [TearDown]
+        [TearDown][po]
         public void TearDown()
         {
+            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            {
+                ExtentReportsUtils.test.Fail(Exception e., ExtentReportsUtils.GetMediaEntityModelProvider());
+            }
         }
 
     }

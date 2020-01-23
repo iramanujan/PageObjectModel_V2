@@ -1,15 +1,17 @@
 ﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WebDriverHelper.HtmlElement;
 
 namespace OrangeHrmLive.Page.Dashboard
 {
-    public class DashboardPage: BasePage
+    public class DashboardPage : BasePage
     {
+        //private readonly string pageLoadedText = "Leave Entitlements and Usage Report";
+        //private readonly string pageUrl = "/index.php/dashboard";
+        private WebElementHelper webElementHelper = new WebElementHelper();
         private IWebDriver webDriver = new BasePage().browser.webDriver;
-        public IWebElement Admin => this.webDriver.FindElement(By.CssSelector("#menu_admin_viewAdminModule"));
+        public IWebElement Admin => webElementHelper.GetWebElement(By.CssSelector("#menu_admin_viewAdminModule"));
+        public IWebElement UserManagement => webElementHelper.GetWebElement(By.CssSelector("#menu_admin_UserManagement"));
+        public IWebElement User => webElementHelper.GetWebElement(By.CssSelector("#menu_admin_viewSystemUsers"));
+
     }
 }

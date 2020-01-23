@@ -152,6 +152,7 @@
     <Compile Include="Utils\ScreenshotUtils.cs" />
     <Compile Include="Utils\StepsExecutor.cs" />
     <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="Utils\TimeUtil.cs" />
     <Compile Include="Utils\TimeZoneUtil.cs" />
     <Compile Include="Utils\WindowUtils.cs" />
     <Compile Include="Utils\ZipUtils.cs" />

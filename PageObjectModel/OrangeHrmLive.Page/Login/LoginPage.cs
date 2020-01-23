@@ -1,7 +1,5 @@
-﻿using Automation.Common.Wait;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using System;
-using WebDriverHelper.BrowserFactory;
 
 namespace OrangeHrmLive.Page.Login
 {
