@@ -105,7 +105,6 @@ D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\bin\
 D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\bin\Debug\WebDriver.xml
 D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\bin\Debug\WebDriver.Support.xml
 D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\bin\Debug\XnaFan.ImageComparison.pdb
-D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.csprojAssemblyReference.cache
 D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.csproj.CopyComplete
 D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.dll
 D:\Personal\Automation\PageObjectModel_V2\PageObjectModel\Automation.Common\obj\Debug\Automation.Common.pdb

@@ -45,6 +45,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin\SystemUsers\SystemUsers.cs" />
     <Compile Include="BaseTest.cs" />
     <Compile Include="Login\Login.cs" />
     <Compile Include="OneTimeAssemblySetUp.cs" />

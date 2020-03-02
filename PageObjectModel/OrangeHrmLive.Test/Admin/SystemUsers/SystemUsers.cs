@@ -1,19 +1,18 @@
-﻿
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OrangeHrmLive.Steps.Admin.SystemUsers;
 using OrangeHrmLive.Steps.Login;
 using System;
 using WebDriverHelper.Report;
 
-namespace OrangeHrmLive.Test.Login
+namespace OrangeHrmLive.Test.Admin.SystemUsers
 {
     [TestFixture]
-    class Login : BaseTest
+    public class SystemUsers: BaseTest
     {
+
         private LoginStep ObjLoginStep;
         private SystemUsersStep ObjSystemUsersStep = null;
-
         [SetUp]
         public void SetUp()
         {
@@ -22,15 +21,13 @@ namespace OrangeHrmLive.Test.Login
         }
 
         [Test]
-        [TestCase("Admin", "admin123", TestName = "Validate Login With Valid User.", Author = "Anuj Jain")]
+        [TestCase("Admin", "admin123", TestName = "Test", Author = "Anuj Jain")]
         public void ValidateLogin(string username, string password)
         {
             ExtentReportsUtils.CreateTest(TestContext.CurrentContext.Test.Name);
             this.ObjLoginStep.verifyLogin(username, password);
             this.ObjSystemUsersStep.NavigateToSystemUsers();
         }
-
-        
 
         [TearDown]
         public void TearDown()
@@ -40,6 +37,5 @@ namespace OrangeHrmLive.Test.Login
                 ExtentReportsUtils.test.Fail(TestContext.CurrentContext.Result.Message, ExtentReportsUtils.GetMediaEntityModelProvider());
             }
         }
-
     }
 }

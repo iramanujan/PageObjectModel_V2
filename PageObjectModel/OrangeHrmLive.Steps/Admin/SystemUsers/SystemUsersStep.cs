@@ -25,16 +25,11 @@ namespace OrangeHrmLive.Steps.Admin.SystemUsers
 
         public void NavigateToSystemUsers()
         {
-            mouseEvents.MoveToElementAndClick(dashboardPage.Admin);
-            mouseEvents.MoveToElementAndClick(dashboardPage.UserManagement);
-            mouseEvents.MoveToElementAndClick(dashboardPage.User);
-
-            //dashboardPage.Admin.Click();
-            //dashboardPage.UserManagement.Click();
-            //dashboardPage.User.Click();
+            dashboardPage.Admin.Click();
+            dashboardPage.UserManagement.Click();
+            dashboardPage.User.Click();
             browser.WaitTillPageLoad(browser.webDriver);
             
-
             var Column = systemUsersPage.GetSystemUserInformationFromTable("Username", SystemUsersPage.CellPosition.VALUE_BASE, "Admin","", true).Text;
             var first = systemUsersPage.GetSystemUserInformationFromTable("User Role", SystemUsersPage.CellPosition.FIRST, "", "", false).Text;
             var last = systemUsersPage.GetSystemUserInformationFromTable("Username", SystemUsersPage.CellPosition.LAST, "", "", true).Text;
